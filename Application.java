@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Application {
     static int sessionSwitch = 1;
 
-    static int count(int lap) throws IOException {
+    static int count(int lap) throws IOException{
         int countPerLap = 0;
 
         while (true) {
