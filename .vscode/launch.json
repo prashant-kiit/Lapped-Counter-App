@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Checker5",
+            "request": "launch",
+            "mainClass": "Checker.Checker5",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "Application",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

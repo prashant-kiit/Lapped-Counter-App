@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 public class SessionData {
     private int sessionID;
+    private String sessionName;
     private String date;
     private String time;
     private int countPerSession;
     private ArrayList<Integer> countPerLaps;
 
-    public SessionData(ArrayList<Integer> countPerLaps, int countPerSession) {
+    // Serizalize it to a file
+    public SessionData(String sessionName, ArrayList<Integer> countPerLaps, int countPerSession) {
         this.date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         this.sessionID = hasher(this.date + this.time);
@@ -57,6 +59,14 @@ public class SessionData {
 
     public void setCountPerLaps(ArrayList<Integer> countPerLaps) {
         this.countPerLaps = countPerLaps;
+    }
+
+    public String getSessionName() {
+        return sessionName;
+    }
+
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
     }
 
     public int hasher(String input) {
