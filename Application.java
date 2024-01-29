@@ -3,11 +3,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class Application {
-    static int sessionSwitch = 0;
-    static int lapSwitch = 0;
+public class Application extends Thread{
+    private int sessionSwitch = 0;
+    private int lapSwitch = 0;
 
-    static int count(int lap) throws IOException {
+    public int count(int lap) throws IOException {
         int countPerLap = 0;
 
         while (true) {
@@ -43,8 +43,8 @@ public class Application {
         return countPerLap;
     }
 
-    public static void main(String[] args) throws IOException {
-        Database database = new Database();
+    public void run() {
+        Database database = Database.getInstance();
         String sessionName = new String("");
 
         while (true) {
@@ -52,13 +52,15 @@ public class Application {
 
             System.out.println("-------------Enter the name of the Session-------------\n");
             BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-
-            sessionName = read.readLine();
+            try {
+                sessionName = read.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             int countPerSession = 0;
             int lap = 1;
             ArrayList<Integer> countPerLaps = new ArrayList<Integer>();
-            countPerLaps.add(-1);
             SessionData sessionData = null;
 
             while (true) {
@@ -68,7 +70,12 @@ public class Application {
                 }
                 System.err.println("\n---------------------Lap " + lap + " starts-----------------------\n");
 
-                int countPerLap = count(lap);
+                int countPerLap = 0;
+                try {
+                    countPerLap = count(lap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 if (lapSwitch == 1) {
                     System.out.println("\n-----------------Redoing the Lap " + lap + " -----------------");
@@ -83,7 +90,14 @@ public class Application {
 
             System.err.println("---------------------Save/Not Save-----------------------\n");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            int save = Integer.parseInt(reader.readLine());
+            int save = 0;
+            try {
+                save = Integer.parseInt(reader.readLine());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (save == 1) {
                 sessionData = new SessionData(sessionName, countPerLaps, countPerSession);
                 database.save(sessionData);
@@ -92,7 +106,14 @@ public class Application {
                 System.err.println("\n---------------------Save Cancelled-----------------------\n");
             }
 
-            int end = Integer.parseInt(reader.readLine());
+            int end = 1;
+            try {
+                end = Integer.parseInt(reader.readLine());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             if (end == 0) {
                 System.out.println("\n---------------App Terminates / Exit from App-------------------");
