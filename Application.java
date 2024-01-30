@@ -45,6 +45,7 @@ public class Application extends Thread{
 
     public void run() {
         Database database = Database.getInstance();
+        // System.out.println(database);
         String sessionName = new String("");
 
         while (true) {

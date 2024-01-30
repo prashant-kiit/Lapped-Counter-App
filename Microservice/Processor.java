@@ -1,4 +1,4 @@
-package Tester;
+package Microservice;
 
 public class Processor extends Thread {
     @Override

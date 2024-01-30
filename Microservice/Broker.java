@@ -1,4 +1,4 @@
-package Tester;
+package Microservice;
 
 public class Broker {
     private static String message = "INACTIVE";

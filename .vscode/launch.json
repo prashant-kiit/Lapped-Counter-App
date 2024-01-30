@@ -6,6 +6,34 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Checker7",
+            "request": "launch",
+            "mainClass": "Checker.Checker7",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "Checker.Server",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Dispatcher",
+            "request": "launch",
+            "mainClass": "Tester.Dispatcher",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Dispatcher",
+            "request": "launch",
+            "mainClass": "Checker.Dispatcher",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
