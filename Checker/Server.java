@@ -49,7 +49,7 @@ public class Server {
 class Dispatcher extends Thread {
     @Override
     public void run() {
-        System.out.println("Server started!!!");
+        System.out.println("Server started!!!");    
         System.out.println("Give Input!!!");
         Fan fanobj = null;
         Bulb bulb = null;

@@ -3,10 +3,6 @@ package Checker;
 public class Checker7 {
     public static void main(String[] args) {
         Sample.getInstance().start();
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
         Sample.getInstance().start();
     }
 }
@@ -14,10 +10,6 @@ public class Checker7 {
 class Sample extends Thread {
     private Sample() {}
     public static Sample getInstance() {
-        // if (sample == null) {
-        //     sample = new Sample();
-        // }
-        // return sample;
         return new Sample();
     }
     public void run() {

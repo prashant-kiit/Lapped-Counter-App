@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class Application extends Thread{
+public class Application extends Thread {
     private int sessionSwitch = 0;
     private int lapSwitch = 0;
 
@@ -16,21 +16,25 @@ public class Application extends Thread{
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             int input = Integer.parseInt(reader.readLine());
 
+            // To change Lap
             if (input == 0) {
                 System.out.println("\n------------------------Lap " + lap + " ends------------------------");
                 break;
             }
 
+            // To change Session
             if (input == -1) {
                 sessionSwitch = 1;
                 break;
             }
 
+            // Redo Counting
             if (input == -2) {
                 System.out.println("\n-------------Redoing the count " + (countPerLap) + "---------------");
                 countPerLap -= 2;
             }
 
+            // Redo Lap
             if (input == -3) {
                 lapSwitch = 1;
                 break;
@@ -48,6 +52,7 @@ public class Application extends Thread{
         // System.out.println(database);
         String sessionName = new String("");
 
+        // Counting and Lapping
         while (true) {
             System.out.println("\n----------------------Session starts----------------------------\n");
 
@@ -89,6 +94,7 @@ public class Application extends Thread{
                 }
             }
 
+            // Saving
             System.err.println("---------------------Save/Not Save-----------------------\n");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             int save = 0;
@@ -107,6 +113,7 @@ public class Application extends Thread{
                 System.err.println("\n---------------------Save Cancelled-----------------------\n");
             }
 
+            // Termination
             int end = 1;
             try {
                 end = Integer.parseInt(reader.readLine());

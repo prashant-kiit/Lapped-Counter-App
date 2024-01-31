@@ -6,6 +6,41 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Client3",
+            "request": "launch",
+            "mainClass": "Socketeer.Basic.Client3",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Client1",
+            "request": "launch",
+            "mainClass": "Socketeer.Basic.Client1",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Client2",
+            "request": "launch",
+            "mainClass": "Socketeer.Basic.Client2",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Client",
+            "request": "launch",
+            "mainClass": "Socketeer.Basic.Client",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "Socketeer.Basic.Server",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
             "name": "Checker7",
             "request": "launch",
             "mainClass": "Checker.Checker7",
