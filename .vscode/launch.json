@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "JSCode",
+            "request": "launch",
+            "mainClass": "Socketeer.JSlike.JSCode",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
             "name": "Client3",
             "request": "launch",
             "mainClass": "Socketeer.Basic.Client3",
