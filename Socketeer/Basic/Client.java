@@ -1,3 +1,5 @@
+package Socketeer.Basic;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -5,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class QueryClient {
+public class Client {
     public static void main(String[] args) throws InterruptedException {
         final String serverAddress = "localhost";
         final int portNumber = 8081;
@@ -23,12 +25,11 @@ public class QueryClient {
                 out.println(message);
                 String message2 = read.readLine();
                 out.println(message2);
-                String message3 = read.readLine();
-                out.println(message3);
+
                 socket.close();
                 out.close();
 
-                i++;
+                i++;                
             }
 
         } catch (UnknownHostException e) {

@@ -6,6 +6,12 @@ import java.util.ArrayList;
 public class Application extends Thread {
     private int sessionSwitch = 0;
     private int lapSwitch = 0;
+    private Database database = null;
+
+    
+    public Application(Database database) {
+        this.database = database;
+    }
 
     public int count(int lap) throws IOException {
         int countPerLap = 0;
@@ -48,8 +54,6 @@ public class Application extends Thread {
     }
 
     public void run() {
-        Database database = Database.getInstance();
-        // System.out.println(database);
         String sessionName = new String("");
 
         // Counting and Lapping

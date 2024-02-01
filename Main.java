@@ -1,8 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        Query query = new Query();
+        Database database = Database.getInstance();
+        Query query = new Query(database);
         query.start();
-        Application application = new Application();
+        Application application = new Application(database);
         application.start();
     }
 }

@@ -13,6 +13,7 @@ public class SessionData {
 
     // Serizalize it to a file
     public SessionData(String sessionName, ArrayList<Integer> countPerLaps, int countPerSession) {
+        this.sessionName = sessionName;
         this.date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         this.sessionID = hasher(this.date + this.time);

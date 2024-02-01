@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "QueryClient",
+            "request": "launch",
+            "mainClass": "QueryClient",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
+            "name": "Checker8",
+            "request": "launch",
+            "mainClass": "Checker.Checker8",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
             "name": "JSCode",
             "request": "launch",
             "mainClass": "Socketeer.JSlike.JSCode",
