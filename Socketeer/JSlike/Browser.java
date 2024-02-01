@@ -58,7 +58,13 @@ class EventLoop implements Runnable {
             if (CallStack.stack.empty()) {
                 Registry registry = CallbackQueue.queue.poll();
                 if (registry != null) {
-                    CallStack.stack.push(registry);
+                    try {
+                        CallStack.stack.push(registry);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        DeathLetterQueue.queue.add(registry);
+                    }
                 }
             }
         }
@@ -74,6 +80,22 @@ class CallStack implements Runnable {
             if (!stack.empty()) {
                 Registry registry = stack.pop();
                 System.out.println(registry.fun.show(registry.para));
+            }
+        }
+    }
+}
+
+class DeathLetterQueue implements Runnable {
+    public static Queue<Registry> queue = new LinkedList<>();
+
+    @Override
+    public void run() {
+        while (true) {
+            if (CallbackQueue.queue.isEmpty()) {
+                Registry registry = CallbackQueue.queue.poll();
+                if (registry != null) {
+                    CallbackQueue.queue.add(registry);
+                }
             }
         }
     }

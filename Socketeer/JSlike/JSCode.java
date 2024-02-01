@@ -14,6 +14,7 @@ interface Function {
 public class JSCode {
     static {
         new Thread(new CallStack()).start();
+        new Thread(new DeathLetterQueue()).start();
         new Thread(new EventLoop()).start();
     }
     public static void main(String[] args) {
