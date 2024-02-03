@@ -8,7 +8,6 @@ public class Application extends Thread {
     private int lapSwitch = 0;
     private Database database = null;
 
-    
     public Application(Database database) {
         this.database = database;
     }
@@ -28,21 +27,21 @@ public class Application extends Thread {
                 break;
             }
 
-            // To change Session
-            if (input == -1) {
-                sessionSwitch = 1;
-                break;
-            }
-
             // Redo Counting
-            if (input == -2) {
-                System.out.println("\n-------------Redoing the count " + (countPerLap) + "---------------");
+            if (input == -1) {
+                System.out.println("\n-------------Redoing the count " + countPerLap + "---------------");
                 countPerLap -= 2;
             }
 
             // Redo Lap
-            if (input == -3) {
+            if (input == -2) {
                 lapSwitch = 1;
+                break;
+            }
+
+            // To change/exit Session
+            if (input == -3) {
+                sessionSwitch = 1;
                 break;
             }
 
@@ -54,7 +53,7 @@ public class Application extends Thread {
     }
 
     public void run() {
-        String sessionName = new String("");
+        String sessionName = " ";
 
         // Counting and Lapping
         while (true) {
@@ -68,14 +67,14 @@ public class Application extends Thread {
                 e.printStackTrace();
             }
 
-            int countPerSession = 0;
+            SessionData sessionData = null;
             int lap = 1;
             ArrayList<Integer> countPerLaps = new ArrayList<Integer>();
-            SessionData sessionData = null;
+            int countPerSession = 0;
 
             while (true) {
                 if (sessionSwitch == 1) {
-                    System.out.println("----------------------Session ends----------------------------\n");
+                    System.out.println("----------------------Session ends/exited----------------------------\n");
                     break;
                 }
                 System.err.println("\n---------------------Lap " + lap + " starts-----------------------\n");
@@ -89,6 +88,7 @@ public class Application extends Thread {
 
                 if (lapSwitch == 1) {
                     System.out.println("\n-----------------Redoing the Lap " + lap + " -----------------");
+                    lapSwitch = 0;
                 } else {
                     countPerLaps.add(countPerLap);
                     countPerSession += countPerLap;
@@ -98,39 +98,50 @@ public class Application extends Thread {
                 }
             }
 
-            // Saving
+            // Saving Reminder
             System.err.println("---------------------Save/Not Save-----------------------\n");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            int save = 0;
+            int saved = 0;
             try {
-                save = Integer.parseInt(reader.readLine());
+                saved = Integer.parseInt(reader.readLine());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (save == 1) {
+            if (saved == 1) {
                 sessionData = new SessionData(sessionName, countPerLaps, countPerSession);
                 database.save(sessionData);
-                System.err.println("\n------------------Saved " + sessionName + " -----------------\n");
+                System.err.println("\n------------------Saved " + sessionName + "-----------------");
+                saved = 0;
             } else {
-                System.err.println("\n---------------------Save Cancelled-----------------------\n");
+                System.err.println("\n---------------------Save Cancelled-----------------------");
             }
+
+
+            // Auto Saving
 
             // Termination
-            int end = 1;
-            try {
-                end = Integer.parseInt(reader.readLine());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            // int end = 1;
+            // try {
+            // end = Integer.parseInt(reader.readLine());
+            // } catch (NumberFormatException e) {
+            // e.printStackTrace();
+            // } catch (IOException e) {
+            // e.printStackTrace();
+            // }
 
-            if (end == 0) {
-                System.out.println("\n---------------App Terminates / Exit from App-------------------");
-                break;
-            }
+            // if (end == 0) {
+            // System.out.println("\n---------------App Terminates / Exit from
+            // App-------------------");
+            // break;
+            // }
+            // while (true) {
+            // if (end == 0) {
+            // break session;
+            // }
+            // }
             sessionSwitch = 0;
         }
     }

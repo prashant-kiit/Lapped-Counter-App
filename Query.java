@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Time;
@@ -78,31 +79,34 @@ public class Query extends Thread {
     public void run() {
         final int portNumber = 8081;
         while (true) {
+            System.out.println("Database is listening...");
             try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-                // System.out.println("Enter query options:
-                // 1-select,2-sessid,3-sessname,4-bydate,5-bytime,6-count");
                 Socket socket = serverSocket.accept();
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 String serverResponseInput = in.readLine();
                 int input = Integer.parseInt(serverResponseInput);
 
-                if (input == 100) {
+                if (input == 1) {
+                    out.println(input);
                     selectAll(database);
                 }
 
                 if (input == 2) {
+                    out.println(input);
                     String serverResponseTargetSessionId = in.readLine();
                     Integer targetSessionId = Integer.parseInt(serverResponseTargetSessionId);
                     filterBySessionId(database, targetSessionId);
                 }
 
                 if (input == 3) {
+                    out.println(input);
                     String targetSessionName = in.readLine();
                     filterBySessionName(database, targetSessionName);
                 }
 
                 if (input == 4) {
+                    out.println(input);
                     String date1 = in.readLine();
                     Date date11 = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
                     String date2 = in.readLine();
@@ -111,6 +115,7 @@ public class Query extends Thread {
                 }
 
                 if (input == 5) {
+                    out.println(input);
                     String time1 = in.readLine();
                     Time time11 = Time.valueOf(time1);
                     String time2 = in.readLine();
@@ -119,6 +124,7 @@ public class Query extends Thread {
                 }
 
                 if (input == 6) {
+                    out.println(input);
                     String serverResponseCountPerSession = in.readLine();
                     Integer countPerSession = Integer.parseInt(serverResponseCountPerSession);
                     filterByCountPerSession(database, countPerSession);
