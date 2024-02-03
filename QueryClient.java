@@ -12,15 +12,16 @@ public class QueryClient {
 
         // edit name of session
         try {
-            while (true) {
+            // while (true) {
                 Socket socket = new Socket(serverAddress, portNumber);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
                 BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println("Enter query options: 1-select,2-sessid,3-sessname,4-bydate,5-bytime,6-count");
-                String message = read.readLine();
-                out.println(message);
+                // System.out.println("Enter query options: 1-select,2-sessid,3-sessname,4-bydate,5-bytime,6-count");
+                // String message = read.readLine();
+                // out.println(message);
+                out.println(Integer.parseInt(args[0]));
 
                 int inputReceived = Integer.parseInt(in.readLine());
 
@@ -37,10 +38,12 @@ public class QueryClient {
                     String message3 = read.readLine();
                     out.println(message3);
                 }
-
+                String result = in.readLine();
+                System.out.println(result);
+                out.println("Bye");
                 socket.close();
                 out.close();
-            }
+            // }
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + serverAddress);

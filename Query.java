@@ -6,81 +6,82 @@ import java.net.Socket;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Query extends Thread {
 
     private Database database = null;
+    private ArrayList<String> result =new ArrayList<>();
 
     public Query(Database database) {
         this.database = database;
     }
 
-    public void printDatabase(int i) {
-        System.out.println(database.getDatabase().get(i).getSessionID());
-        System.out.println(database.getDatabase().get(i).getSessionName());
-        System.out.println(database.getDatabase().get(i).getDate());
-        System.out.println(database.getDatabase().get(i).getTime());
-        System.out.println(database.getDatabase().get(i).getCountPerSession());
-        System.out.println(database.getDatabase().get(i).getCountPerLaps().toString());
-        System.out.println("------------------------------------------------------------");
+    public String getJsonstring(PrintWriter out, int i) {
+        return "{\"SessionID\" : " + database.getDatabase().get(i).getSessionID() + ", \"SessionName\" : \""
+        + database.getDatabase().get(i).getSessionName() + "\", \"Date\" : \""
+        + database.getDatabase().get(i).getDate() + "\", \"Time\" : \"" + database.getDatabase().get(i).getTime()
+        + "\", \"CountPerSession\" : " + database.getDatabase().get(i).getCountPerSession()
+        + ", \"CountPerLaps\" : " + database.getDatabase().get(i).getCountPerLaps().toString() + "}";
     }
 
-    public void selectAll(Database database) {
+    public void selectAll(PrintWriter out, Database database) {
         for (int i = 0; i < database.getDatabase().size(); i++) {
-            printDatabase(i);
+            result.add(getJsonstring(out, i));
         }
     }
 
-    public void filterBySessionId(Database database, Integer targetSessionId) {
+    public void filterBySessionId(PrintWriter out, Database database, Integer targetSessionId) {
         for (int i = 0; i < database.getDatabase().size(); i++) {
             if (database.getDatabase().get(i).getSessionID() == targetSessionId) {
-                printDatabase(i);
+                result.add(getJsonstring(out, i));
             }
         }
     }
 
-    public void filterBySessionName(Database database, String targetSessionName) {
+    public void filterBySessionName(PrintWriter out, Database database, String targetSessionName) {
         for (int i = 0; i < database.getDatabase().size(); i++) {
             if (database.getDatabase().get(i).getSessionName().contains(targetSessionName)) {
-                printDatabase(i);
+                result.add(getJsonstring(out, i));
             }
         }
     }
 
-    public void filterByDate(Database database, Date date1, Date date2) throws ParseException {
+    public void filterByDate(PrintWriter out, Database database, Date date1, Date date2) throws ParseException {
         for (int i = 0; i < database.getDatabase().size(); i++) {
             Date date = new SimpleDateFormat("yyyy-MM-dd").parse(database.getDatabase().get(i).getDate());
             if (date.after(date1) && date.before(date2)) {
-                printDatabase(i);
+                result.add(getJsonstring(out, i));
             }
         }
     }
 
-    public void filterByTime(Database database, Time time1, Time time2) {
+    public void filterByTime(PrintWriter out, Database database, Time time1, Time time2) {
         for (int i = 0; i < database.getDatabase().size(); i++) {
             Time time = Time.valueOf(database.getDatabase().get(i).getTime());
             int tmp1 = time.compareTo(time1);
             int tmp2 = time.compareTo(time2);
             if (tmp2 >= 0 && tmp1 <= 0) {
-                printDatabase(i);
+                result.add(getJsonstring(out, i));
             }
         }
     }
 
-    public void filterByCountPerSession(Database database, Integer countPerSession) {
+    public void filterByCountPerSession(PrintWriter out, Database database, Integer countPerSession) {
         for (int i = 0; i < database.getDatabase().size(); i++) {
             if (database.getDatabase().get(i).getCountPerSession() == countPerSession) {
-                printDatabase(i);
+                result.add(getJsonstring(out, i));
             }
         }
     }
 
     public void run() {
         final int portNumber = 8081;
-        while (true) {
-            System.out.println("Database is listening...");
-            try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
+        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
+            // while (true) {
+                System.out.println("Database is listening...");
+                result.clear();
                 Socket socket = serverSocket.accept();
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -89,20 +90,20 @@ public class Query extends Thread {
 
                 if (input == 1) {
                     out.println(input);
-                    selectAll(database);
+                    selectAll(out, database);
                 }
 
                 if (input == 2) {
                     out.println(input);
                     String serverResponseTargetSessionId = in.readLine();
                     Integer targetSessionId = Integer.parseInt(serverResponseTargetSessionId);
-                    filterBySessionId(database, targetSessionId);
+                    filterBySessionId(out, database, targetSessionId);
                 }
 
                 if (input == 3) {
                     out.println(input);
                     String targetSessionName = in.readLine();
-                    filterBySessionName(database, targetSessionName);
+                    filterBySessionName(out, database, targetSessionName);
                 }
 
                 if (input == 4) {
@@ -111,7 +112,7 @@ public class Query extends Thread {
                     Date date11 = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
                     String date2 = in.readLine();
                     Date date22 = new SimpleDateFormat("yyyy-MM-dd").parse(date2);
-                    filterByDate(database, date11, date22);
+                    filterByDate(out, database, date11, date22);
                 }
 
                 if (input == 5) {
@@ -120,21 +121,26 @@ public class Query extends Thread {
                     Time time11 = Time.valueOf(time1);
                     String time2 = in.readLine();
                     Time time22 = Time.valueOf(time2);
-                    filterByTime(database, time11, time22);
+                    filterByTime(out, database, time11, time22);
                 }
 
                 if (input == 6) {
                     out.println(input);
                     String serverResponseCountPerSession = in.readLine();
                     Integer countPerSession = Integer.parseInt(serverResponseCountPerSession);
-                    filterByCountPerSession(database, countPerSession);
+                    filterByCountPerSession(out, database, countPerSession);
                 }
-
+                System.out.println(result);
+                String temp = result.toString();
+                out.println(temp);
+                String bye = in.readLine();
+                System.out.println(bye);
                 socket.close();
                 in.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            // }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
