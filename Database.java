@@ -4,8 +4,10 @@ import java.util.ArrayList;
 public class Database {
     private ArrayList<SessionData> sessionDatas = new ArrayList<SessionData>();
     private static Database database = null;
-    private Database() {}
-    
+
+    private Database() {
+    }
+
     public ArrayList<SessionData> getDatabase() {
         return sessionDatas;
     }
@@ -15,11 +17,14 @@ public class Database {
     }
 
     public void save(SessionData sessionData) {
+        if (this.sessionDatas.contains(sessionData)) {
+            this.sessionDatas.remove(sessionData);
+        }
         sessionDatas.add(sessionData);
     }
 
     public static Database getInstance() {
-        if(database == null) {
+        if (database == null) {
             database = new Database();
         }
         return database;

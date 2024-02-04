@@ -1,7 +1,7 @@
 import json
 import subprocess
 
-command = "java QueryClient.java 1"
+command = "java QueryClientPython.java 1"
 
 resultObj = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -10,8 +10,8 @@ results = json.loads(resultObj.stdout)
 print("Results ", results)
 
 for result in results:    
-    print("Value of 'CountPerSession':", resultObj["CountPerSession"])
-    print("Value of 'CountPerLaps':", resultObj["CountPerLaps"])
+    print("Value of 'CountPerSession':", result["CountPerSession"])
+    print("Value of 'CountPerLaps':", result["CountPerLaps"])
 
-print("Error:", result.stderr)
-print("Return Code:", result.returncode)
+print("Error:", resultObj.stderr)
+print("Return Code:", resultObj.returncode)

@@ -1,23 +1,24 @@
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 
 public class SessionData {
-    private int sessionID;
+    private Integer sessionID;
     private String sessionName;
     private String date;
     private String time;
-    private int countPerSession;
+    private Integer countPerSession;
     private ArrayList<Integer> countPerLaps;
 
+    public SessionData() {
+        
+    }
     // Serizalize it to a file
-    public SessionData(String sessionName, ArrayList<Integer> countPerLaps, int countPerSession) {
+    public SessionData(String sessionName, String date, String time, ArrayList<Integer> countPerLaps, int countPerSession) {
         this.sessionName = sessionName;
-        this.date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        this.sessionID = hasher(this.date + this.time);
+        this.date = date;
+        this.time = time;
         this.countPerSession = countPerSession;
+        this.sessionID = hasher(this.date + this.time);
         this.countPerLaps = countPerLaps;
     }
 
@@ -42,8 +43,8 @@ public class SessionData {
         return countPerLaps;
     }
 
-    public void setSessionID(int sessionID) {
-        this.sessionID = sessionID;
+    public void setSessionID(String date, String time) {
+        this.sessionID = hasher(this.date + this.time);
     }
 
     public void setDate(String date) {

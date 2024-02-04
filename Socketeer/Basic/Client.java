@@ -13,6 +13,7 @@ public class Client {
         final int portNumber = 8081;
 
         try {
+            @SuppressWarnings("unused")
             int i = 0;
 
             while (true) {

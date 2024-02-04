@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "QueryClientPython",
+            "request": "launch",
+            "mainClass": "QueryClientPython",
+            "projectName": "CounterLapped_c52df0b7"
+        },
+        {
+            "type": "java",
             "name": "QueryClient",
             "request": "launch",
             "mainClass": "QueryClient",
