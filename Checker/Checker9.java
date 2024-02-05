@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 /**
  * Server
  */
-public class Server {
+public class Checker9 {
     static int fan = 0;
     static int bulb = 0;
 
@@ -19,25 +19,25 @@ public class Server {
         while (true) {
             String input = read.readLine();
             if (input.equals("f")) {
-                Server.fan = 1;
+                Checker9.fan = 1;
                 // System.out.println(Server.state);
                 System.out.println("Fan On Message Send");
                 input = "";
             }
             if (input.equals("fo")) {
-                Server.fan = -1;
+                Checker9.fan = -1;
                 // System.out.println(Server.state);
                 System.out.println("Fan off Message Send");
                 input = "";
             }
             if (input.equals("b")) {
-                Server.bulb = 1;
+                Checker9.bulb = 1;
                 // System.out.println(Server.state);
                 System.out.println("Bulb on Message Send");
                 input = "";
             }
             if (input.equals("bo")) {
-                Server.bulb = -1;
+                Checker9.bulb = -1;
                 // System.out.println(Server.state);
                 System.out.println("Bulb off Message Send");
                 input = "";
@@ -59,23 +59,23 @@ class Dispatcher extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (Server.fan == 1) {
+            if (Checker9.fan == 1) {
                 fanobj = new Fan();
                 fanobj.start();
-                Server.fan = 0;
+                Checker9.fan = 0;
             }
-            if (Server.fan == -1) {
+            if (Checker9.fan == -1) {
                 fanobj.stopperFan = 1;
-                Server.fan = 0;
+                Checker9.fan = 0;
             }
-            if (Server.bulb == 1) {
+            if (Checker9.bulb == 1) {
                 bulb = new Bulb();
                 bulb.start();
-                Server.bulb = 0;
+                Checker9.bulb = 0;
             }
-            if (Server.bulb == -1) {
+            if (Checker9.bulb == -1) {
                 bulb.stopperBulb = 1;
-                Server.bulb = 0;
+                Checker9.bulb = 0;
             }
         }
     }

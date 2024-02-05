@@ -19,20 +19,20 @@ public class Application extends Thread {
         int countPerLap = 0;
 
         while (true) {
-            System.out.println("----------------Enter continue/end Lap " + lap + "------------------\n");
+            System.out.println("Enter continue/end Lap " + lap + "\n");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             int input = Integer.parseInt(reader.readLine());
 
             // To change Lap
             if (input == 0) {
-                System.out.println("\n------------------------Lap " + lap + " ends------------------------");
+                System.out.println("\nLap " + lap + " ends");
                 break;
             }
 
             // Redo Counting
             if (input == -1) {
-                System.out.println("\n-------------Redoing the count " + countPerLap + "---------------");
+                System.out.println("\nRedoing the count " + countPerLap);
                 countPerLap -= 2;
             }
 
@@ -57,10 +57,9 @@ public class Application extends Thread {
 
     public void run() {
 
-        // Counting and Lapping
         while (true) {
-            System.out.println("\n----------------------Session starts----------------------------\n");
-            System.out.println("-------------Enter the name of the Session-------------\n");
+            System.out.println("\nSession starts\n");
+            System.out.println("Enter the name of the Session\n");
             SessionData sessionData = new SessionData();
             BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
             try {
@@ -80,11 +79,11 @@ public class Application extends Thread {
 
             while (true) {
                 if (sessionSwitch == 1) {
-                    System.out.println("\n----------------------Session ends/exited----------------------------\n");
+                    System.out.println("\nSession ends/exited\n");
                     sessionSwitch = 0;
                     break;
                 }
-                System.err.println("\n---------------------Lap " + lap + " starts-----------------------\n");
+                System.err.println("\nLap " + lap + " starts\n");
 
                 int countPerLap = 0;
                 try {
@@ -94,18 +93,17 @@ public class Application extends Thread {
                 }
 
                 if (lapSwitch == 1) {
-                    System.out.println("\n-----------------Redoing the Lap " + lap + " -----------------");
+                    System.out.println("\nRedoing the Lap " + lap);
                     lapSwitch = 0;
                 } else {
                     countPerLaps.add(countPerLap);
                     countPerSession += countPerLap;
                     System.out.println("\nCount in Lap " + lap + " - " + countPerLap);
                     System.out.println("\nCount Per Session " + countPerSession + "\n");
-                    // Saving Reminder/Auto Saving
                     sessionData.setCountPerLaps(countPerLaps);
                     sessionData.setCountPerSession(countPerSession);
                     database.save(sessionData);
-                    System.err.println("------------------Saved Session " + sessionData.getSessionName() + "-----------------");            
+                    System.err.println("Saved Session " + sessionData.getSessionName());            
                     lap++;
                 }
             }
