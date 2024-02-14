@@ -35,8 +35,8 @@ public class SessionData implements Serializable{
         return countPerLaps;
     }
 
-    public synchronized void setSessionID(String date, String time) {
-        this.sessionID = hasher(this.date + this.time);
+    public synchronized void setSessionID(String date, String time, String sessionName) {
+        this.sessionID = getHash(this.date + this.time + sessionName);
     }
 
     public synchronized void setDate(String date) {
@@ -63,12 +63,12 @@ public class SessionData implements Serializable{
         this.sessionName = sessionName;
     }
 
-    public synchronized int hasher(String input) {
+    public synchronized int getHash(String input) {
         int hashkey = 0;
         for (int i = 0; i < input.length(); i++) {
             hashkey = (hashkey * 31) + input.charAt(i);
         }
-        return hashkey;
+        return hashkey >= 0 ? hashkey : ~hashkey + 1;
     }
 
     @Override

@@ -58,7 +58,7 @@ public class Application extends Thread {
     public void run() {
 
         while (true) {
-            System.out.println("\nSession starts\n");
+            System.out.println("Session starts\n");
             System.out.println("Enter the name of the Session\n");
             SessionData sessionData = new SessionData();
             BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
@@ -69,7 +69,7 @@ public class Application extends Thread {
             }
             String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            sessionData.setSessionID(date, time);
+            sessionData.setSessionID(date, time, sessionData.getSessionName());
             sessionData.setDate(date);
             sessionData.setTime(time);
 
@@ -103,7 +103,7 @@ public class Application extends Thread {
                     sessionData.setCountPerLaps(countPerLaps);
                     sessionData.setCountPerSession(countPerSession);
                     database.save(sessionData);
-                    System.err.println("Saved Session " + sessionData.getSessionName());            
+                    System.err.println("Saved Session " + sessionData.getSessionName());
                     lap++;
                 }
             }
