@@ -1,0 +1,6 @@
+/**
+ * MessageQueue
+ */
+public class MessageQueue {
+
+}

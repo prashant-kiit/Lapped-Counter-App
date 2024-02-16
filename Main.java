@@ -3,8 +3,8 @@ public class Main {
         Database database = Database.getInstance();
         Backup backup = new Backup(database);
         backup.start();
-        Query query = new Query(database);
-        query.start();
+        QueryServer queryServer = new QueryServer(database);
+        queryServer.start();
         Application application = new Application(database);
         application.start();
     }

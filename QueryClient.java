@@ -4,11 +4,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QueryClient {
+    private static final String serverAddress = "localhost";
+    private static final int portNumber = 8081;
+    private static String queryIndex = new String();
+    private static String metric = new String();
+    private static Map<String, String> message = new HashMap<>();
     public static void main(String[] args) throws InterruptedException {
-        final String serverAddress = "localhost";
-        final int portNumber = 8081;
 
         // edit name of session
         try {
@@ -16,30 +21,25 @@ public class QueryClient {
                 Socket socket = new Socket(serverAddress, portNumber);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
                 BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+
                 System.out.println("\nEnter query options: 1-select,2-sessid,3-sessname,4-bydate,5-bytime,6-count");
-                String option = read.readLine();
-                out.println(Integer.parseInt(option));
-
-                int inputReceived = Integer.parseInt(in.readLine());
-
-                if (inputReceived == 2 || inputReceived == 3 || inputReceived == 6) {
-                    System.out.println("One Parameters");
-                    String metric1 = read.readLine();
-                    out.println(metric1);
+                queryIndex = read.readLine();
+                message.put("queryIndex", queryIndex);
+                int i = 0;
+                while (true) {
+                    metric = read.readLine();
+                    if(metric.equals("r")) {
+                        break;
+                    }
+                    message.put("metric" + i, metric);
+                    i++;
                 }
-
-                if (inputReceived == 4 || inputReceived == 5) {
-                    System.out.println("Two Parameters");
-                    String metric1 = read.readLine();
-                    out.println(metric1);
-                    String metric2 = read.readLine();
-                    out.println(metric2);
-                }
+                out.println(ProtocolHandler.jsonify(message));
                 String result = in.readLine();
+                
                 System.out.println(result);
-                out.println("Bye");
+                out.println("Response Recevived from Query Server");
                 socket.close();
                 out.close();
             }

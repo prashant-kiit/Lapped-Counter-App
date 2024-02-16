@@ -42,7 +42,7 @@ public class Application extends Thread {
                 break;
             }
 
-            // To change/exit Session
+            // To save/change/exit Session
             if (input == -3) {
                 sessionSwitch = 1;
                 break;
@@ -80,6 +80,8 @@ public class Application extends Thread {
             while (true) {
                 if (sessionSwitch == 1) {
                     System.out.println("\nSession ends/exited\n");
+                    
+                    System.out.println("Message Queued");
                     sessionSwitch = 0;
                     break;
                 }

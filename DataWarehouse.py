@@ -1,24 +1,36 @@
 import json
 
-class Document:                   
-    def __init__(self, result) -> None:
-        documentId = self.getHash(result)
+def getHash(result):
+    json_string = json.dumps(result, sort_keys=True)
+    hash_value = hash(json_string)     
+    return hash_value
+
+class RawDocument:                   
+    def __init__(self, result):
+        documentId = getHash(result)
         self.doc_value = {'DocumentId' : documentId, 'Result' : result}
 
-    def getHash(self, result):
-        json_string = json.dumps(result, sort_keys=True)
-        hash_value = hash(json_string)     
-        return hash_value
+class DataframeDocument:
+    def __init__(self, dataframe):
+        documentId = getHash(dataframe)
+        self.doc_value = {'DocumentId' : documentId, 'Dataframe' : dataframe}
 
 class CollectionSingleton:
-    collection = None
+    collectionRawDocument = None
+    collectionDataframe = None
 
     @classmethod
     def __new__(cls):
         pass
 
     @classmethod
-    def getCollection(cls):
-        if cls.collection is None:
-            cls.collection = []
-        return cls.collection
+    def getCollectionRawDocument(cls):
+        if cls.collectionRawDocument is None:
+            cls.collectionRawDocument = []
+        return cls.collectionRawDocument
+    
+    @classmethod
+    def getCollectionDataframe(cls):
+        if cls.collectionDataframe is None:
+            cls.collectionDataframe = []
+        return cls.collectionDataframe
