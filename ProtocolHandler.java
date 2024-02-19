@@ -18,6 +18,7 @@ public class ProtocolHandler {
         json = "{" + elements + "\"Status\":\"Active\"}";
         return json;
     }
+    
     public static Map<String, String> mapify(String json) {
         String elementString = json.substring(1, json.length() - 1);
         ArrayList<String> elements = new ArrayList<>(Arrays.asList(elementString.split(",")));

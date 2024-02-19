@@ -1,6 +1,4 @@
-/**
- * MessageQueue
- */
+
 public class MessageQueue {
 
 }

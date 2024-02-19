@@ -22,7 +22,7 @@ public class Application extends Thread {
             System.out.println("Enter continue/end Lap " + lap + "\n");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            int input = Integer.parseInt(reader.readLine());
+            Integer input = Integer.parseInt(reader.readLine());
 
             // To change Lap
             if (input == 0) {

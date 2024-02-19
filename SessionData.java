@@ -3,19 +3,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SessionData implements Serializable{
-    private Integer sessionID;
-    private String sessionName;
-    private String date;
-    private String time;
-    private Integer countPerSession;
-    private ArrayList<Integer> countPerLaps;
+    private Integer sessionID = null;
+    private String sessionName = null;
+    private String date = null;
+    private String time = null;
+    private Integer countPerSession = null;
+    private ArrayList<Integer> countPerLaps = null;
 
     public SessionData() {
         
     }
 
     public synchronized int getSessionID() {
-
         return sessionID;
     }
 

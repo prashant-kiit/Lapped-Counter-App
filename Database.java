@@ -13,10 +13,6 @@ public class Database implements Serializable{
         return sessionDatas;
     }
 
-    public synchronized void setDatabase(ArrayList<SessionData> sessionDatas) {
-        this.sessionDatas = sessionDatas;
-    }
-
     public synchronized void save(SessionData sessionData) {
         if (this.sessionDatas.contains(sessionData)) {
             this.sessionDatas.remove(sessionData);

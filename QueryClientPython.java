@@ -10,7 +10,6 @@ import java.util.Map;
 public class QueryClientPython {
     private static final String serverAddress = "localhost";
     private static final int portNumber = 8081;
-    private static String queryIndex = new String();
     private static Map<String, String> message = new HashMap<>();
     public static void main(String[] args) throws InterruptedException {
 

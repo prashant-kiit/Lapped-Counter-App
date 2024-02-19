@@ -10,10 +10,10 @@ if __name__ == "__main__":
     collectionRawDocument = IngestionClient.start(collectionRawDocument)
     # cleaning of raw data in data warehouse to form dataframes
     collectionDataframe = Cleaner.start(collectionRawDocument, collectionDataframe)
+    # Application
     # scheduling
     # caching
-    # load only the update records
-    # remove extra socket handshake in QueryClient
+    # load only the updated records
     # etl to build dataframes that will used from report creation
 
     print(collectionDataframe)
