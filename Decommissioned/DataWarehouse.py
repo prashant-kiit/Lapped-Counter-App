@@ -1,7 +1,7 @@
 import json
 
 def getHash(result):
-    json_string = json.dumps(result, sort_keys=True)
+    json_string = json.dumps(result)
     hash_value = hash(json_string)     
     return hash_value
 

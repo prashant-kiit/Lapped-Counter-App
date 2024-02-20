@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class QueryRegistry {
     private Database database = null;
-    private Map<String, Query> queryIndex = new HashMap<>();
-    private ArrayList<String> result = new ArrayList<>();
+    private Map<String, Query> queryIndex = null;
+    private ArrayList<String> result = null;
 
     private String getJsonstring(int i) {
         return "{\"SessionID\" : " + database.getDatabase().get(i).getSessionID() + ", \"SessionName\" : \""
@@ -86,6 +86,8 @@ public class QueryRegistry {
 
     public QueryRegistry(Database database) {
         this.database = database;
+        this.queryIndex = new HashMap<>();
+        this.result = new ArrayList<>();
         this.queryIndex.put("1", selectAll);
         this.queryIndex.put("2", filterBySessionId);
         this.queryIndex.put("3", filterBySessionName);

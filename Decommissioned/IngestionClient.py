@@ -1,7 +1,7 @@
 import json
 import subprocess
 import traceback
-import DataWarehouse as dw
+import Decommissioned.DataWarehouse as dw
 
 def start(collectionRawDocument):
     command = "java QueryClientPython.java 1"
@@ -9,12 +9,12 @@ def start(collectionRawDocument):
 
     try:
         results = json.loads(resultObj.stdout)
-        print("Check ",type(results))
     except Exception as e:
         traceback.print_exc()
-    # print("Results ", results)
+    print("Results ", results)
+    print("Check ",type(results))
 
-    for result in results: # type: ignore
+    for result in results:  # type: ignore
         rawDocument = dw.RawDocument(result)
         collectionRawDocument.append(rawDocument)    
     return collectionRawDocument

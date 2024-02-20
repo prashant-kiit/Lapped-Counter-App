@@ -104,7 +104,7 @@ public class Application extends Thread {
                     System.out.println("\nCount Per Session " + countPerSession + "\n");
                     sessionData.setCountPerLaps(countPerLaps);
                     sessionData.setCountPerSession(countPerSession);
-                    database.save(sessionData);
+                    //database.save(sessionData);
                     System.err.println("Saved Session " + sessionData.getSessionName());
                     lap++;
                 }

@@ -1,6 +1,6 @@
-import DataWarehouse
-import IngestionClient
-import Cleaner
+import Decommissioned.DataWarehouse as DataWarehouse
+import Decommissioned.IngestionClient as IngestionClient
+import Decommissioned.Cleaner as Cleaner
 
 if __name__ == "__main__":
     # get collection instances
@@ -10,7 +10,6 @@ if __name__ == "__main__":
     collectionRawDocument = IngestionClient.start(collectionRawDocument)
     # cleaning of raw data in data warehouse to form dataframes
     collectionDataframe = Cleaner.start(collectionRawDocument, collectionDataframe)
-    # Application
     # scheduling
     # caching
     # load only the updated records

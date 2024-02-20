@@ -15,7 +15,6 @@ public class AppServer {
 
     public void addCurrentSessionData(String sessionName) {
         this.currentSessionData = new SessionData();
-        this.sessionDatas.add(currentSessionData);
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         this.currentSessionData.setSessionID(date, time, this.currentSessionData.getSessionName());
@@ -25,7 +24,7 @@ public class AppServer {
         this.currentSessionData.setCountPerSession(0);
         this.currentSessionData.setCountPerLaps(new ArrayList<>());
         this.addCurrentLap();
-
+        this.sessionDatas.add(currentSessionData);
     }
 
     public void addCurrentLap() {
@@ -58,7 +57,7 @@ public class AppServer {
         }
         return temp; 
     }
-    
+
     public void editSessionName(Integer sessionId, String newSessionName) {
         for(SessionData sessionData : this.sessionDatas) {
             if(sessionId == sessionData.getSessionID()) {
