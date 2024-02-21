@@ -2,29 +2,22 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-class Message {  
-    private Endpoint endpoint = null;
-    private Target target = null;
-    
-    static enum Endpoint {
-        addCurrentSessionData, addCurrentLap, incrementLastLap, decrementLastLap, resetCurrentLapToZero, editSessionName
-    };
+class Message {
+    public SessionData currentSessionData = null;
+    public DataWarehouseAttributeLambda[] dataWarehouseAttributeLambdas = null;
 
-    static enum Target {
-        all, sessionName, lapPerSessionAndCountPerSession
-    };
-
-    Message(Endpoint endpoint, Target target) {
-        this.endpoint = endpoint;
-        this.target = target;
+    Message(SessionData currentSessionData, DataWarehouseAttributeLambda... dataWarehouseAttributeLambdas) {
+        this.currentSessionData = currentSessionData;
+        this.dataWarehouseAttributeLambdas = dataWarehouseAttributeLambdas;
     }
 
     @Override
     public String toString() {
-        return "[ " + this.endpoint + " : " + this.target + " ]";
+        return "[ " + this.currentSessionData + " : " + Arrays.toString( this.dataWarehouseAttributeLambdas) + " ]";
     }
 }
 
@@ -34,16 +27,21 @@ interface AppServerEndpoint {
 }
 
 public class AppServer {
+    private DataWarehouse dataWarehouse = null;
     private MessageQueue messageQueue = null;
     private ArrayList<SessionData> sessionDatas = null;
     private SessionData currentSessionData = null;
+    @SuppressWarnings("unused")
+    private static Integer currentSessionDataId = null;
 
-    public AppServer(Database database, MessageQueue messageQueue) {
+    public AppServer(Database database, MessageQueue messageQueue, DataWarehouse dataWarehouse) {
         this.sessionDatas = database.getDatabase();
         this.messageQueue = messageQueue;
+        this.dataWarehouse = dataWarehouse;
     }
 
     public AppServerEndpoint addCurrentSessionData = (String... parameters) -> {
+        AppServer.currentSessionDataId = this.currentSessionData.getSessionID();
         this.currentSessionData = new SessionData();
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
@@ -55,19 +53,19 @@ public class AppServer {
         this.currentSessionData.setCountPerLaps(new ArrayList<>());
         this.currentSessionData.getCountPerLaps().add(0);
         this.sessionDatas.add(currentSessionData);
-        return new Message(Message.Endpoint.addCurrentSessionData, Message.Target.all);
+        return new Message(this.currentSessionData, this.dataWarehouse.setSessionData);
     };
 
     public AppServerEndpoint addCurrentLap = (String... parameters) -> {
         this.currentSessionData.getCountPerLaps().add(0);
-        return new Message(Message.Endpoint.addCurrentLap, Message.Target.lapPerSessionAndCountPerSession);
+        return new Message(this.currentSessionData, this.dataWarehouse.setCountPerSession, this.dataWarehouse.setCountPerLaps);
     };
 
     public AppServerEndpoint incrementLastLap = (String... parameters) -> {
         ArrayList<Integer> temp = this.currentSessionData.getCountPerLaps();
         temp.set(temp.size() - 1, temp.get(temp.size() - 1) + 1);
         this.currentSessionData.setCountPerSession(this.currentSessionData.getCountPerSession() + 1);
-        return new Message(Message.Endpoint.incrementLastLap, Message.Target.lapPerSessionAndCountPerSession);
+        return new Message(this.currentSessionData, this.dataWarehouse.setCountPerSession, this.dataWarehouse.setCountPerLaps);
     };
 
     public AppServerEndpoint decrementLastLap = (String... parameters) -> {
@@ -76,13 +74,13 @@ public class AppServer {
             temp.set(temp.size() - 1, temp.get(temp.size() - 1) - 1);
             this.currentSessionData.setCountPerSession(this.currentSessionData.getCountPerSession() - 1);
         }
-        return new Message(Message.Endpoint.decrementLastLap, Message.Target.lapPerSessionAndCountPerSession);
+        return new Message(this.currentSessionData, this.dataWarehouse.setCountPerSession, this.dataWarehouse.setCountPerLaps);
     };
 
     public AppServerEndpoint resetCurrentLapToZero = (String... parameters) -> {
         ArrayList<Integer> temp = this.currentSessionData.getCountPerLaps();
         temp.set(temp.size() - 1, 0);
-        return new Message(Message.Endpoint.resetCurrentLapToZero, Message.Target.lapPerSessionAndCountPerSession);
+        return new Message(this.currentSessionData, this.dataWarehouse.setCountPerSession, this.dataWarehouse.setCountPerLaps);
     };
 
     public AppServerEndpoint editSessionName = (String... parameters) -> {
@@ -92,7 +90,7 @@ public class AppServer {
                 sessionData.setSessionName(parameters[1]);
             }
         }
-        return new Message(Message.Endpoint.editSessionName, Message.Target.sessionName);
+        return new Message(this.currentSessionData, this.dataWarehouse.setSessionName);
     };
 
     public Map<Integer, String> getSessionNameListFromDatabase(String... parameters) {

@@ -2,7 +2,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SessionData implements Serializable {
+public class SessionData implements Serializable  {
     private Integer sessionID = null;
     private String sessionName = null;
     private String date = null;
