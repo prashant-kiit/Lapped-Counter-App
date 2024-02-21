@@ -23,11 +23,4 @@ public class Database implements Serializable{
     public synchronized String toString() {
         return "Database [sessionDatas=" + sessionDatas + "]";
     }
-
-    // public synchronized void save(SessionData sessionData) {
-    //     if (this.sessionDatas.contains(sessionData)) {
-    //         this.sessionDatas.remove(sessionData);
-    //     }
-    //     sessionDatas.add(sessionData);
-    // }
 }

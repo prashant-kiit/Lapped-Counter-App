@@ -18,26 +18,26 @@ public class AppClientEndpointRegistry {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.appServer.addCurrentSessionData(sessionName);
+        this.appServer.execute(this.appServer.addCurrentSessionData, sessionName);
     };
 
     private AppClientEndpoint addCurrentLapEndpoint = () -> {
-        this.appServer.addCurrentLap();
+        this.appServer.execute(this.appServer.addCurrentLap, "");
         System.out.println("New Lap Added");
     };
 
     private AppClientEndpoint incrementLastLapEndpoint = () -> {
-        this.appServer.incrementLastLap();
-        System.out.println("Incremented");
+        this.appServer.execute(this.appServer.incrementLastLap, "");
+        System.out.println("Incremented Count");
     };
 
     private AppClientEndpoint decrementLastLapEndpoint = () -> {
-        this.appServer.decrementLastLap();
-        System.out.println("Decremented");
+        this.appServer.execute(this.appServer.decrementLastLap, "");
+        System.out.println("Decremented Count");
     };
 
     private AppClientEndpoint resetCurrentLapToZeroEndpoint = () -> {
-        this.appServer.resetCurrentLapToZero();
+        this.appServer.execute(this.appServer.resetCurrentLapToZero, "");
         System.out.println("Current LapReset to Zero");
     };
 
@@ -55,17 +55,8 @@ public class AppClientEndpointRegistry {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Integer sessionId = 0;
-        try {
-            sessionId = Integer.parseInt(sessionIdString);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.appServer.editSessionName(sessionId, newSessionName);
-    };
-
-    private AppClientEndpoint wrongInput = () -> {
-        System.out.println("Wrong Input");
+        this.appServer.execute(this.appServer.editSessionName, sessionIdString, newSessionName);
+        System.out.println("Session name edited");
     };
 
     public AppClientEndpointRegistry(AppServer appServer) {
@@ -77,7 +68,6 @@ public class AppClientEndpointRegistry {
         this.endpointIndex.put("4", decrementLastLapEndpoint);
         this.endpointIndex.put("5", resetCurrentLapToZeroEndpoint);
         this.endpointIndex.put("6", editSessionNameEndpoint);
-        this.endpointIndex.put("7", wrongInput);
     }
 
     public Map<String, AppClientEndpoint> getEndpointIndex() {

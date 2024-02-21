@@ -14,8 +14,6 @@ public class QueryClient {
     private static String metric = new String();
     private static Map<String, String> message = new HashMap<>();
     public static void main(String[] args) throws InterruptedException {
-
-        // edit name of session
         try {
             while (true) {
                 Socket socket = new Socket(serverAddress, portNumber);
