@@ -20,7 +20,7 @@ public class QueryRegistry {
                 + ", \"CountPerLaps\" : " + database.getDatabase().get(i).getCountPerLaps().toString() + "}";
     }
 
-    private Query selectAll = (ArrayList<String> paramaters) -> { // result, database
+    private Query selectAll = (ArrayList<String> paramaters) -> {
         for (int i = 0; i < database.getDatabase().size(); i++)
             result.add(getJsonstring(i));
         return result;

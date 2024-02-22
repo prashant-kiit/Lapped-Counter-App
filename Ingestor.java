@@ -12,12 +12,11 @@ public class Ingestor extends Thread {
 
     @Override
     public void run() {
-        this.queue = this.messageQueue.getMessageQueue();
         while(true) {
             if(!this.queue.isEmpty()) {
-                this.currentMessage = this.queue.remove();
-                Arrays.stream(this.currentMessage.dataWarehouseAttributeLambdas)
-                .forEach(dataWarehouseAttributeLambda -> dataWarehouseAttributeLambda.operate(this.currentMessage.currentSessionData));
+                this.currentMessage = this.messageQueue.removeLastElement();
+                Arrays.stream(this.currentMessage.getDataWarehouseAttributeLambda())
+                .forEach(dataWarehouseAttributeLambda -> dataWarehouseAttributeLambda.operate(this.currentMessage.getDatabase(), this.currentMessage.getCurrentSessionDataIndex()));
             }
         }
     }
